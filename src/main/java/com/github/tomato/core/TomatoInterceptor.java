@@ -33,13 +33,13 @@ public class TomatoInterceptor {
     }
 
     @Around("@annotation(com.github.tomato.annotation.Repeat)")
-    public Object doAround(ProceedingJoinPoint pjp) {
+    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
         //1. 获取唯一键的获取方式
         Object[] args = pjp.getArgs();
         Method method = findMethod(pjp.getSignature());
         Repeat repeat = findRepeat(method);
         Object result = null;
-        try {
+//        try {
             //2. 获取唯一键
             String tomatoToken = tokenProviderSupport.findTomatoToken(method, args);
             StaticContext.setToken(tomatoToken);
@@ -59,11 +59,11 @@ public class TomatoInterceptor {
                 }
                 result = proceed;
             }
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        } finally {
-            StaticContext.clear();
-        }
+//        } catch (Throwable throwable) {
+//            throwable.printStackTrace();
+//        } finally {
+//            StaticContext.clear();
+//        }
         return result;
     }
 
